@@ -17,7 +17,7 @@
 		<div class="string" data-name={string.name}>
 			<Frets />
 			<span class="scale">
-				<ScaleOverlay scale="melodic-minor" offset={string.offset + scaleOffset} />
+				<ScaleOverlay scale="major-pentatonic" offset={string.offset + scaleOffset} />
 			</span>
 		</div>
 	{/each}
