@@ -1,11 +1,16 @@
 <script lang="ts">
-	type Scale = 'major' | 'natural-minor';
+	type Scale = 'major' | 'natural-minor' | 'harmonic-minor';
 
 	export let offset: number = 0; // relative to E
 	export let scale: Scale = 'major';
 </script>
 
-<div class="scale-overlay" class:major={scale === 'major'} class:natural-minor={scale === 'natural-minor'}>
+<div
+	class="scale-overlay"
+	class:major={scale === 'major'}
+	class:natural-minor={scale === 'natural-minor'}
+	class:harmonic-minor={scale === 'harmonic-minor'}
+>
 	{#each Array(offset) as _i}
 		<span class="note hidden" />
 	{/each}
@@ -120,5 +125,43 @@
 	}
 	.natural-minor .note:nth-child(12n + 12) {
 		background-color: var(--empty-color);
+	}
+
+	/* harmonic minor scale */
+	.harmonic-minor .note:nth-child(12n + 1) {
+		background-color: var(--full-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 2) {
+		background-color: var(--empty-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 3) {
+		background-color: var(--full-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 4) {
+		background-color: var(--full-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 5) {
+		background-color: var(--empty-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 6) {
+		background-color: var(--full-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 7) {
+		background-color: var(--empty-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 8) {
+		background-color: var(--full-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 9) {
+		background-color: var(--full-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 10) {
+		background-color: var(--empty-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 11) {
+		background-color: var(--empty-color);
+	}
+	.harmonic-minor .note:nth-child(12n + 12) {
+		background-color: var(--full-color);
 	}
 </style>
