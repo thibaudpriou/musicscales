@@ -9,17 +9,11 @@
 
 	export let offset: number = 0; // relative to E
 	export let scale: Scale = 'major';
+
+	const classes = `scale-overlay ${scale}`
 </script>
 
-<div
-	class="scale-overlay"
-	class:major={scale === 'major'}
-	class:natural-minor={scale === 'natural-minor'}
-	class:harmonic-minor={scale === 'harmonic-minor'}
-	class:melodic-minor={scale === 'melodic-minor'}
-	class:major-pentatonic={scale === 'major-pentatonic'}
-	class:minor-pentatonic={scale === 'minor-pentatonic'}
->
+<div class={classes}>
 	{#each Array(offset) as _i}
 		<span class="note hidden" />
 	{/each}
