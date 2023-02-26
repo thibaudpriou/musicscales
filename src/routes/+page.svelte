@@ -43,16 +43,35 @@
 	}
 </script>
 
-{#each scales as scale}
-	<button on:click={selectedScaleCallback(scale)}>{scale.name}</button>
-{/each}
+<div>
+	Scale type:
+	{#each scales as scale}
+		<button on:click={selectedScaleCallback(scale)}>{scale.name}</button>
+	{/each}
+</div>
 
 <div>
-	<button on:click={downNote}>Down</button>
-	<button on:click={upNote}>Up</button>
+	Note:
+	<button on:click={downNote}>-</button>
+	<button on:click={upNote}>+</button>
 </div>
 
 <h1>
-	{notes[selectedNoteOffset]} {selectedScale.name}
+	{notes[selectedNoteOffset]}
+	{selectedScale.name}
 </h1>
-<Strings scale={selectedScale.value} scaleOffset={12 - selectedNoteOffset} />
+<div class="neck">
+	<Strings scale={selectedScale.value} scaleOffset={12 - selectedNoteOffset} />
+</div>
+
+<style>
+	button {
+		margin: 0.5em;
+		padding: 0.2em 0.5em;
+	}
+
+	.neck {
+		margin: 0 1em;
+		font-size: 2vw;
+	}
+</style>
