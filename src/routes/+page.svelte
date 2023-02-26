@@ -15,13 +15,31 @@
 		{ name: 'Pentatonic Major', value: 'pentatonic-major' },
 		{ name: 'Pentatonic Minor', value: 'pentatonic-minor' }
 	];
+	const notes = ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'];
 
 	let selectedScale: ScaleInfo = scales[0];
+	let selectedNoteOffset = 0;
 
 	function selectedScaleCallback(value: ScaleInfo) {
 		return () => {
 			selectedScale = value;
 		};
+	}
+
+	function upNote() {
+		if (selectedNoteOffset + 1 === 12) {
+			selectedNoteOffset = 0;
+			return;
+		}
+		selectedNoteOffset = selectedNoteOffset + 1;
+	}
+
+	function downNote() {
+		if (selectedNoteOffset - 1 === -1) {
+			selectedNoteOffset = 11;
+			return;
+		}
+		selectedNoteOffset = selectedNoteOffset - 1;
 	}
 </script>
 
@@ -29,7 +47,12 @@
 	<button on:click={selectedScaleCallback(scale)}>{scale.name}</button>
 {/each}
 
+<div>
+	<button on:click={downNote}>Down</button>
+	<button on:click={upNote}>Up</button>
+</div>
+
 <h1>
-	{selectedScale.name}
+	{notes[selectedNoteOffset]} {selectedScale.name}
 </h1>
-<Strings scale={selectedScale.value} />
+<Strings scale={selectedScale.value} scaleOffset={12 - selectedNoteOffset} />
