@@ -1,17 +1,15 @@
 <script lang="ts">
-	type Scale = 'major' | 'minor';
+	type Scale = 'major' | 'natural-minor';
 
 	export let offset: number = 0; // relative to E
 	export let scale: Scale = 'major';
-
-	const nbNotes = 12;
 </script>
 
-<div class="scale-overlay" class:major={scale === 'major'}>
+<div class="scale-overlay" class:major={scale === 'major'} class:natural-minor={scale === 'natural-minor'}>
 	{#each Array(offset) as _i}
 		<span class="note hidden" />
 	{/each}
-	{#each Array(nbNotes) as _i}
+	{#each Array(12) as _i}
 		<span class="note" />
 	{/each}
 </div>
@@ -49,40 +47,78 @@
 	}
 
 	/* major scale */
-	.note:nth-child(12n + 1) {
+	.major .note:nth-child(12n + 1) {
 		background-color: var(--full-color);
 	}
-	.note:nth-child(12n + 2) {
+	.major .note:nth-child(12n + 2) {
 		background-color: var(--empty-color);
 	}
-	.note:nth-child(12n + 3) {
+	.major .note:nth-child(12n + 3) {
 		background-color: var(--full-color);
 	}
-	.note:nth-child(12n + 4) {
+	.major .note:nth-child(12n + 4) {
 		background-color: var(--empty-color);
 	}
-	.note:nth-child(12n + 5) {
+	.major .note:nth-child(12n + 5) {
 		background-color: var(--full-color);
 	}
-	.note:nth-child(12n + 6) {
+	.major .note:nth-child(12n + 6) {
 		background-color: var(--full-color);
 	}
-	.note:nth-child(12n + 7) {
+	.major .note:nth-child(12n + 7) {
 		background-color: var(--empty-color);
 	}
-	.note:nth-child(12n + 8) {
+	.major .note:nth-child(12n + 8) {
 		background-color: var(--full-color);
 	}
-	.note:nth-child(12n + 9) {
+	.major .note:nth-child(12n + 9) {
 		background-color: var(--empty-color);
 	}
-	.note:nth-child(12n + 10) {
+	.major .note:nth-child(12n + 10) {
 		background-color: var(--full-color);
 	}
-	.note:nth-child(12n + 11) {
+	.major .note:nth-child(12n + 11) {
 		background-color: var(--empty-color);
 	}
-	.note:nth-child(12n + 12) {
+	.major .note:nth-child(12n + 12) {
 		background-color: var(--full-color);
+	}
+
+	/* natural minor scale */
+	.natural-minor .note:nth-child(12n + 1) {
+		background-color: var(--full-color);
+	}
+	.natural-minor .note:nth-child(12n + 2) {
+		background-color: var(--empty-color);
+	}
+	.natural-minor .note:nth-child(12n + 3) {
+		background-color: var(--full-color);
+	}
+	.natural-minor .note:nth-child(12n + 4) {
+		background-color: var(--full-color);
+	}
+	.natural-minor .note:nth-child(12n + 5) {
+		background-color: var(--empty-color);
+	}
+	.natural-minor .note:nth-child(12n + 6) {
+		background-color: var(--full-color);
+	}
+	.natural-minor .note:nth-child(12n + 7) {
+		background-color: var(--empty-color);
+	}
+	.natural-minor .note:nth-child(12n + 8) {
+		background-color: var(--full-color);
+	}
+	.natural-minor .note:nth-child(12n + 9) {
+		background-color: var(--full-color);
+	}
+	.natural-minor .note:nth-child(12n + 10) {
+		background-color: var(--empty-color);
+	}
+	.natural-minor .note:nth-child(12n + 11) {
+		background-color: var(--full-color);
+	}
+	.natural-minor .note:nth-child(12n + 12) {
+		background-color: var(--empty-color);
 	}
 </style>

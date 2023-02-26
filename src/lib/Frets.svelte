@@ -18,12 +18,12 @@
 		box-sizing: border-box;
 	}
 	.position:first-child::before {
-        display: block;
+		display: block;
 		content: '';
-        width: 4px;
-        background-color: black;
-        margin-left: -2px;
-        height: calc(100% + 2px); /* for borders */
-        margin-top: -1px; /* for borders */
+		width: 4px;
+		background-color: black;
+		margin-left: -2px;
+		height: calc(100% + 2px); /* for borders */
+		margin-top: -1px; /* for borders */
 	}
 </style>
