@@ -37,6 +37,10 @@
 		margin-left: -0.5em;
 	}
 
+	.note:nth-child(12n + 1) {
+		background-color: red !important;
+	}
+
 	.note.hidden {
 		display: none;
 		margin-left: 0;
