@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
 	import ScaleOverlay from '$lib/ScaleOverlay.svelte';
 	import Frets from '$lib/Frets.svelte';
+	import type { Scale } from '../types';
 
 	export let scaleOffset = 0; // relative to E
+	export let scale: Scale = 'major';
 
 	const strings = [
 		{ name: 'G', offset: 15 },
@@ -17,7 +19,7 @@
 		<div class="string" data-name={string.name}>
 			<Frets />
 			<span class="scale">
-				<ScaleOverlay scale="minor-pentatonic" offset={string.offset + scaleOffset} />
+				<ScaleOverlay {scale} offset={string.offset + scaleOffset} />
 			</span>
 		</div>
 	{/each}

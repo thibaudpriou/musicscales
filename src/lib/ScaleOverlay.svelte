@@ -1,16 +1,10 @@
 <script lang="ts">
-	type Scale =
-		| 'major'
-		| 'natural-minor'
-		| 'harmonic-minor'
-		| 'melodic-minor'
-		| 'major-pentatonic'
-		| 'minor-pentatonic';
+	import type { Scale } from '../types';
 
 	export let offset: number = 0; // relative to E
 	export let scale: Scale = 'major';
 
-	const classes = `scale-overlay ${scale}`
+	$: classes = `scale-overlay ${scale}`;
 </script>
 
 <div class={classes}>
@@ -207,78 +201,78 @@
 	}
 
 	/* major pentatonic scale */
-	.major-pentatonic .note:nth-child(12n + 1) {
+	.pentatonic-major .note:nth-child(12n + 1) {
 		background-color: var(--full-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 2) {
+	.pentatonic-major .note:nth-child(12n + 2) {
 		background-color: var(--empty-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 3) {
+	.pentatonic-major .note:nth-child(12n + 3) {
 		background-color: var(--full-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 4) {
+	.pentatonic-major .note:nth-child(12n + 4) {
 		background-color: var(--empty-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 5) {
+	.pentatonic-major .note:nth-child(12n + 5) {
 		background-color: var(--full-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 6) {
+	.pentatonic-major .note:nth-child(12n + 6) {
 		background-color: var(--empty-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 7) {
+	.pentatonic-major .note:nth-child(12n + 7) {
 		background-color: var(--empty-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 8) {
+	.pentatonic-major .note:nth-child(12n + 8) {
 		background-color: var(--full-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 9) {
+	.pentatonic-major .note:nth-child(12n + 9) {
 		background-color: var(--empty-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 10) {
+	.pentatonic-major .note:nth-child(12n + 10) {
 		background-color: var(--full-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 11) {
+	.pentatonic-major .note:nth-child(12n + 11) {
 		background-color: var(--empty-color);
 	}
-	.major-pentatonic .note:nth-child(12n + 12) {
+	.pentatonic-major .note:nth-child(12n + 12) {
 		background-color: var(--empty-color);
 	}
 
 	/* minor pentatonic scale */
-	.minor-pentatonic .note:nth-child(12n + 1) {
+	.pentatonic-minor .note:nth-child(12n + 1) {
 		background-color: var(--full-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 2) {
+	.pentatonic-minor .note:nth-child(12n + 2) {
 		background-color: var(--empty-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 3) {
+	.pentatonic-minor .note:nth-child(12n + 3) {
 		background-color: var(--empty-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 4) {
+	.pentatonic-minor .note:nth-child(12n + 4) {
 		background-color: var(--full-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 5) {
+	.pentatonic-minor .note:nth-child(12n + 5) {
 		background-color: var(--empty-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 6) {
+	.pentatonic-minor .note:nth-child(12n + 6) {
 		background-color: var(--full-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 7) {
+	.pentatonic-minor .note:nth-child(12n + 7) {
 		background-color: var(--empty-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 8) {
+	.pentatonic-minor .note:nth-child(12n + 8) {
 		background-color: var(--full-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 9) {
+	.pentatonic-minor .note:nth-child(12n + 9) {
 		background-color: var(--empty-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 10) {
+	.pentatonic-minor .note:nth-child(12n + 10) {
 		background-color: var(--empty-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 11) {
+	.pentatonic-minor .note:nth-child(12n + 11) {
 		background-color: var(--full-color);
 	}
-	.minor-pentatonic .note:nth-child(12n + 12) {
+	.pentatonic-minor .note:nth-child(12n + 12) {
 		background-color: var(--empty-color);
 	}
 </style>
