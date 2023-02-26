@@ -17,11 +17,12 @@
 	{#each strings as string}
 		<div class="string" data-name={string.name}>
 			{#each Array(13) as _i}
-				<span class="fret" />
+			<span class="fret" />
 			{/each}
 			<span class="scale">
 				<ScaleOverlay {scale} offset={string.offset + scaleOffset} />
 			</span>
+			<span class="label">{string.name}</span>
 		</div>
 	{/each}
 </div>
@@ -30,12 +31,20 @@
 	.strings {
 		display: inline-flex;
 		flex-direction: column;
+		margin-left: 2em;
 	}
 
 	.string {
 		position: relative;
 		display: flex;
 		border-top: solid 1px black;
+	}
+
+	.string .label {
+		font-size: 70%;
+		position: absolute;
+		top: -0.5em;
+		left: -2em;
 	}
 
 	.scale {
