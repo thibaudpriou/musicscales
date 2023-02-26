@@ -11,7 +11,7 @@
 	{#each Array(offset) as _i}
 		<span class="note hidden" />
 	{/each}
-	{#each Array(12) as _i}
+	{#each Array(13) as _i}
 		<span class="note" />
 	{/each}
 </div>

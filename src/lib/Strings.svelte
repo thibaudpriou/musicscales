@@ -16,7 +16,7 @@
 <div class="strings">
 	{#each strings as string}
 		<div class="string" data-name={string.name}>
-			{#each Array(12) as _i}
+			{#each Array(13) as _i}
 				<span class="fret" />
 			{/each}
 			<span class="scale">
