@@ -1,6 +1,16 @@
 {
 	"name": "musicscales",
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"description": "simple website to display music scales on bass guitar",
+	"homepage": "http://musicscales.priou.me",
+	"author": {
+		"name": "Thibaud Priou",
+		"email": "thibaud.priou@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/thibaudpriou/musicscales.git"
+	},
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
