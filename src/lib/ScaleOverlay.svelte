@@ -1,0 +1,88 @@
+<script lang="ts">
+	type Scale = 'major' | 'minor';
+
+	export let offset: number = 0; // relative to E
+	export let scale: Scale = 'major';
+
+	const nbNotes = 12;
+</script>
+
+<div class="scale-overlay" class:major={scale === 'major'}>
+	{#each Array(offset) as _i}
+		<span class="note hidden" />
+	{/each}
+	{#each Array(nbNotes) as _i}
+		<span class="note" />
+	{/each}
+</div>
+
+<style>
+	.scale-overlay {
+		display: flex;
+		--empty-color: none;
+		--full-color: blue;
+	}
+
+	.note {
+		margin-left: 1em;
+		width: 1em;
+		height: 1em;
+		display: inline-block;
+		border-radius: 50%;
+		clip-path: circle(1em);
+		background-color: white;
+	}
+
+	.note:first-child {
+		margin-left: -0.5em;
+	}
+
+	.note.hidden {
+		display: none;
+		margin-left: 0;
+	}
+
+	.note.hidden:first-child {
+		margin-left: -1.5em;
+		display: inline-block;
+		width: 0%;
+	}
+
+	/* major scale */
+	.note:nth-child(12n + 1) {
+		background-color: var(--full-color);
+	}
+	.note:nth-child(12n + 2) {
+		background-color: var(--empty-color);
+	}
+	.note:nth-child(12n + 3) {
+		background-color: var(--full-color);
+	}
+	.note:nth-child(12n + 4) {
+		background-color: var(--empty-color);
+	}
+	.note:nth-child(12n + 5) {
+		background-color: var(--full-color);
+	}
+	.note:nth-child(12n + 6) {
+		background-color: var(--full-color);
+	}
+	.note:nth-child(12n + 7) {
+		background-color: var(--empty-color);
+	}
+	.note:nth-child(12n + 8) {
+		background-color: var(--full-color);
+	}
+	.note:nth-child(12n + 9) {
+		background-color: var(--empty-color);
+	}
+	.note:nth-child(12n + 10) {
+		background-color: var(--full-color);
+	}
+	.note:nth-child(12n + 11) {
+		background-color: var(--empty-color);
+	}
+	.note:nth-child(12n + 12) {
+		background-color: var(--full-color);
+	}
+</style>
