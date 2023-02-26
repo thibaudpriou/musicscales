@@ -1,5 +1,11 @@
 <script lang="ts">
-	type Scale = 'major' | 'natural-minor' | 'harmonic-minor' | 'melodic-minor' | 'major-pentatonic';
+	type Scale =
+		| 'major'
+		| 'natural-minor'
+		| 'harmonic-minor'
+		| 'melodic-minor'
+		| 'major-pentatonic'
+		| 'minor-pentatonic';
 
 	export let offset: number = 0; // relative to E
 	export let scale: Scale = 'major';
@@ -12,6 +18,7 @@
 	class:harmonic-minor={scale === 'harmonic-minor'}
 	class:melodic-minor={scale === 'melodic-minor'}
 	class:major-pentatonic={scale === 'major-pentatonic'}
+	class:minor-pentatonic={scale === 'minor-pentatonic'}
 >
 	{#each Array(offset) as _i}
 		<span class="note hidden" />
@@ -240,6 +247,44 @@
 		background-color: var(--empty-color);
 	}
 	.major-pentatonic .note:nth-child(12n + 12) {
+		background-color: var(--empty-color);
+	}
+
+	/* minor pentatonic scale */
+	.minor-pentatonic .note:nth-child(12n + 1) {
+		background-color: var(--full-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 2) {
+		background-color: var(--empty-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 3) {
+		background-color: var(--empty-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 4) {
+		background-color: var(--full-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 5) {
+		background-color: var(--empty-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 6) {
+		background-color: var(--full-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 7) {
+		background-color: var(--empty-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 8) {
+		background-color: var(--full-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 9) {
+		background-color: var(--empty-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 10) {
+		background-color: var(--empty-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 11) {
+		background-color: var(--full-color);
+	}
+	.minor-pentatonic .note:nth-child(12n + 12) {
 		background-color: var(--empty-color);
 	}
 </style>
