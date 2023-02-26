@@ -1,9 +1,5 @@
-<script lang="ts">
-	const nbNotes = 12;
-</script>
-
 <div class="string">
-	{#each Array(nbNotes) as _i}
+	{#each Array(12) as _i}
 		<span class="position" />
 	{/each}
 </div>

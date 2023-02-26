@@ -3,37 +3,24 @@
 	import Frets from '$lib/Frets.svelte';
 
 	export let scaleOffset = 0; // relative to E
+
+	const strings = [
+		{ name: 'G', offset: 15 },
+		{ name: 'D', offset: 10 },
+		{ name: 'A', offset: 5 },
+		{ name: 'E', offset: 0 }
+	];
 </script>
 
 <div class="strings">
-	<div class="string">
-		<!-- G -->
-		<Frets />
-		<span class="scale">
-			<ScaleOverlay scale="major" offset={15 + scaleOffset} />
-		</span>
-	</div>
-	<div class="string">
-		<!-- D -->
-		<Frets />
-		<span class="scale">
-			<ScaleOverlay scale="major" offset={10 + scaleOffset} />
-		</span>
-	</div>
-	<div class="string">
-		<!-- A -->
-		<Frets />
-		<span class="scale">
-			<ScaleOverlay scale="major" offset={5 + scaleOffset} />
-		</span>
-	</div>
-	<div class="string">
-		<!-- E -->
-		<Frets />
-		<span class="scale">
-			<ScaleOverlay scale="major" offset={0 + scaleOffset} />
-		</span>
-	</div>
+	{#each strings as string}
+		<div class="string" data-name={string.name}>
+			<Frets />
+			<span class="scale">
+				<ScaleOverlay scale="major" offset={string.offset + scaleOffset} />
+			</span>
+		</div>
+	{/each}
 </div>
 
 <style>
