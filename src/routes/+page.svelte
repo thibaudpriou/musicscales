@@ -1,11 +1,21 @@
 <script lang="ts">
 	import Strings from '$lib/Strings.svelte';
-	import type { Scale } from '../types';
+	import type { Instrument, Scale } from '../types';
 
 	interface ScaleInfo {
 		name: string;
 		value: Scale;
 	}
+
+	interface InstrumentInfo {
+		name: string;
+		value: Instrument;
+	}
+
+	const intruments: InstrumentInfo[] = [
+		{ name: 'Bass', value: 'bass' },
+		{ name: 'Guitar', value: 'guitar' }
+	];
 
 	const scales: ScaleInfo[] = [
 		{ name: 'Major', value: 'major' },
@@ -18,7 +28,14 @@
 	const notes = ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'];
 
 	let selectedScale: ScaleInfo = scales[0];
+	let selectedInstru: Instrument = intruments[0].value;
 	let selectedNoteOffset = 0;
+
+	function selectInstruCallback(value: Instrument) {
+		return () => {
+			selectedInstru = value;
+		};
+	}
 
 	function selectedScaleCallback(value: ScaleInfo) {
 		return () => {
@@ -44,9 +61,20 @@
 </script>
 
 <div>
+	{#each intruments as instru}
+		<button
+			on:click={selectInstruCallback(instru.value)}
+			class:active={instru.value === selectedInstru}>{instru.name}</button
+		>
+	{/each}
+</div>
+
+<div>
 	Scale type:
 	{#each scales as scale}
-		<button on:click={selectedScaleCallback(scale)}>{scale.name}</button>
+		<button on:click={selectedScaleCallback(scale)} class:active={scale === selectedScale}
+			>{scale.name}</button
+		>
 	{/each}
 </div>
 
@@ -61,17 +89,23 @@
 	{selectedScale.name}
 </h1>
 <div class="neck">
-	<Strings scale={selectedScale.value} scaleOffset={12 - selectedNoteOffset} />
+	<Strings scale={selectedScale.value} scaleOffset={12 - selectedNoteOffset} instrument={selectedInstru}/>
 </div>
 
 <style>
 	button {
 		margin: 0.5em;
 		padding: 0.2em 0.5em;
+		border-radius: 0.25em;
 	}
 
 	.neck {
 		margin: 0 1em;
 		font-size: 2vw;
+	}
+
+	button.active {
+		background-color: lightgreen;
+		/* color: white; */
 	}
 </style>

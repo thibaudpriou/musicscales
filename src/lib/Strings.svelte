@@ -1,16 +1,26 @@
 <script lang="ts">
 	import ScaleOverlay from '$lib/ScaleOverlay.svelte';
-	import type { Scale } from '../types';
+	import type { Instrument, Scale } from '../types';
 
 	export let scaleOffset = 0; // relative to E
 	export let scale: Scale = 'major';
+	export let instrument: Instrument = 'bass';
 
-	const strings = [
+	const bassStrings = [
 		{ name: 'G', offset: 15 },
 		{ name: 'D', offset: 10 },
 		{ name: 'A', offset: 5 },
 		{ name: 'E', offset: 0 }
 	];
+	const guitarStrings = [
+		{ name: 'E', offset: 24 },
+		{ name: 'B', offset: 19 },
+		{ name: 'G', offset: 15 },
+		{ name: 'D', offset: 10 },
+		{ name: 'A', offset: 5 },
+		{ name: 'E', offset: 0 }
+	];
+	$: strings = instrument === 'bass' ? bassStrings : guitarStrings;
 </script>
 
 <div class="container">

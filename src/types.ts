@@ -5,3 +5,5 @@ export type Scale =
 	| 'melodic-minor'
 	| 'pentatonic-major'
 	| 'pentatonic-minor';
+
+export type Instrument = 'guitar' | 'bass';
