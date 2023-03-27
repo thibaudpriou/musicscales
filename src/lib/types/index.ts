@@ -17,4 +17,5 @@ export interface InstrumentInfo {
 export type Note = {
 	label: string;
 	pitchOffset: number;
+	enharmonic?: boolean
 };

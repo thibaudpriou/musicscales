@@ -30,17 +30,23 @@
 		{ name: 'by fifths', apply: sortByFifths }
 	];
 
+	const harmonicNotes = notes.filter((n) => !n.enharmonic);
+
 	const getNoteIdxForPitch = (array: Note[], pitchOffset: number) =>
 		array.findIndex((n) => n.pitchOffset === pitchOffset);
 
 	let selectedScale: ScaleInfo = scales[0];
 	let selectedInstru: InstrumentInfo = intruments[0];
 	let selectedSort: SortInfo = sortMethods[0];
+	let displayEnharmonic: boolean = false;
 
-	const getSortedNotes = (instru: InstrumentInfo, sort: SortInfo) => shiftOrder(instru.pitchStart, sort.apply(notes));
+	const getSortedNotes = (instru: InstrumentInfo, sort: SortInfo) =>
+		shiftOrder(instru.pitchStart, sort.apply(harmonicNotes));
+
+	const findEnharmonic = (note: Note) =>
+		notes.find((n) => !!n.enharmonic && n.pitchOffset === note.pitchOffset);
 
 	let selectedNote = getSortedNotes(selectedInstru, selectedSort)[0];
-
 	$: sortedNotes = getSortedNotes(selectedInstru, selectedSort);
 
 	function selectInstruCallback(value: Instrument) {
@@ -59,6 +65,10 @@
 		return () => {
 			selectedSort = value;
 		};
+	}
+
+	function toggleEnharmonic() {
+		displayEnharmonic = !displayEnharmonic;
 	}
 
 	function upNote() {
@@ -108,10 +118,20 @@
 	<button on:click={downNote}>-</button>
 	<button on:click={upNote}>+</button>
 </div>
-
+<div>
+	<button on:click={toggleEnharmonic} class:active={displayEnharmonic}>with enharmonics</button>
+</div>
 <h1>
-	{selectedNote.label}
-	{selectedScale.name}
+	<span>
+		{selectedNote.label}
+		{#if displayEnharmonic}
+			{@const enharmonic = findEnharmonic(selectedNote)}
+			{#if enharmonic}
+				<span>/ {enharmonic?.label}</span>
+			{/if}
+		{/if}
+	</span>
+	<span>{selectedScale.name}</span>
 </h1>
 <div class="neck">
 	<Strings
