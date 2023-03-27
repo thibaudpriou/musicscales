@@ -3,7 +3,7 @@
 	import type { Instrument, Scale } from '../types';
 
 	export let scaleOffset = 0; // relative to E
-	export let scale: Scale = 'major';
+	export let scale: Scale;
 	export let instrument: Instrument = 'bass';
 
 	const bassStrings = [

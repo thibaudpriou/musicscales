@@ -1,5 +1,3 @@
-import type { Note } from '$lib/types';
-
 /**
  * Shift notes order
  *
@@ -7,7 +5,7 @@ import type { Note } from '$lib/types';
  * @param notes
  * @returns
  */
-export const shiftOrder = (start: number, notes: Note[]): Note[] => {
+export const shiftOrder = <T>(start: number, notes: T[]): T[] => {
 	return [
         ...notes.slice(start),
         ...notes.slice(0, start - notes.length)

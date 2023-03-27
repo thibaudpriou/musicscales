@@ -1,29 +1,38 @@
 <script lang="ts">
-	import type { Scale } from '../types';
+	import { shiftOrder } from '$lib/utils';
+	import { IN_SCALE, NOT_IN_SCALE, type Scale } from '../types';
 
 	export let offset: number = 0; // relative to E
-	export let scale: Scale = 'major';
+	export let scale: Scale;
 
-	$: classes = `scale-overlay ${scale}`;
+	$: semitones = shiftOrder(offset % 12, scale);
+	$: firstSemitone = semitones[0];
 </script>
 
-<div class={classes}>
+<div class="scale-overlay">
 	{#each Array(offset) as _i}
-		<span class="note hidden" />
+		<span class="semitone hidden" />
 	{/each}
-	{#each Array(13) as _i}
-		<span class="note" />
+	{#each semitones as semitone}
+		<span
+			class="semitone"
+			class:full={semitone === IN_SCALE}
+			class:empty={semitone === NOT_IN_SCALE}
+		/>
 	{/each}
+	<span
+		class="semitone"
+		class:full={firstSemitone === IN_SCALE}
+		class:empty={firstSemitone === NOT_IN_SCALE}
+	/>
 </div>
 
 <style>
 	.scale-overlay {
 		display: flex;
-		--empty-color: none;
-		--full-color: blue;
 	}
 
-	.note {
+	.semitone {
 		margin-left: 1em;
 		width: 1em;
 		height: 1em;
@@ -33,250 +42,30 @@
 		background-color: white;
 	}
 
-	.note:first-child {
+	.semitone:first-child {
 		margin-left: -0.5em;
 	}
 
-	.note:nth-child(12n + 1) {
-		background-color: red !important;
+	.semitone:nth-child(12n + 1) {
+		background-color: var(--tonic-color) !important;
 	}
 
-	.note.hidden {
+	.semitone.hidden {
 		display: none;
 		margin-left: 0;
 	}
 
-	.note.hidden:first-child {
+	.semitone.hidden:first-child {
 		margin-left: -1.5em;
 		display: inline-block;
 		width: 0%;
 	}
 
-	/* major scale */
-	.major .note:nth-child(12n + 1) {
-		background-color: var(--full-color);
-	}
-	.major .note:nth-child(12n + 2) {
-		background-color: var(--empty-color);
-	}
-	.major .note:nth-child(12n + 3) {
-		background-color: var(--full-color);
-	}
-	.major .note:nth-child(12n + 4) {
-		background-color: var(--empty-color);
-	}
-	.major .note:nth-child(12n + 5) {
-		background-color: var(--full-color);
-	}
-	.major .note:nth-child(12n + 6) {
-		background-color: var(--full-color);
-	}
-	.major .note:nth-child(12n + 7) {
-		background-color: var(--empty-color);
-	}
-	.major .note:nth-child(12n + 8) {
-		background-color: var(--full-color);
-	}
-	.major .note:nth-child(12n + 9) {
-		background-color: var(--empty-color);
-	}
-	.major .note:nth-child(12n + 10) {
-		background-color: var(--full-color);
-	}
-	.major .note:nth-child(12n + 11) {
-		background-color: var(--empty-color);
-	}
-	.major .note:nth-child(12n + 12) {
+	.semitone.full {
 		background-color: var(--full-color);
 	}
 
-	/* natural minor scale */
-	.natural-minor .note:nth-child(12n + 1) {
-		background-color: var(--full-color);
-	}
-	.natural-minor .note:nth-child(12n + 2) {
-		background-color: var(--empty-color);
-	}
-	.natural-minor .note:nth-child(12n + 3) {
-		background-color: var(--full-color);
-	}
-	.natural-minor .note:nth-child(12n + 4) {
-		background-color: var(--full-color);
-	}
-	.natural-minor .note:nth-child(12n + 5) {
-		background-color: var(--empty-color);
-	}
-	.natural-minor .note:nth-child(12n + 6) {
-		background-color: var(--full-color);
-	}
-	.natural-minor .note:nth-child(12n + 7) {
-		background-color: var(--empty-color);
-	}
-	.natural-minor .note:nth-child(12n + 8) {
-		background-color: var(--full-color);
-	}
-	.natural-minor .note:nth-child(12n + 9) {
-		background-color: var(--full-color);
-	}
-	.natural-minor .note:nth-child(12n + 10) {
-		background-color: var(--empty-color);
-	}
-	.natural-minor .note:nth-child(12n + 11) {
-		background-color: var(--full-color);
-	}
-	.natural-minor .note:nth-child(12n + 12) {
-		background-color: var(--empty-color);
-	}
-
-	/* harmonic minor scale */
-	.harmonic-minor .note:nth-child(12n + 1) {
-		background-color: var(--full-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 2) {
-		background-color: var(--empty-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 3) {
-		background-color: var(--full-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 4) {
-		background-color: var(--full-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 5) {
-		background-color: var(--empty-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 6) {
-		background-color: var(--full-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 7) {
-		background-color: var(--empty-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 8) {
-		background-color: var(--full-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 9) {
-		background-color: var(--full-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 10) {
-		background-color: var(--empty-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 11) {
-		background-color: var(--empty-color);
-	}
-	.harmonic-minor .note:nth-child(12n + 12) {
-		background-color: var(--full-color);
-	}
-
-	/* melodic minor scale */
-	.melodic-minor .note:nth-child(12n + 1) {
-		background-color: var(--full-color);
-	}
-	.melodic-minor .note:nth-child(12n + 2) {
-		background-color: var(--empty-color);
-	}
-	.melodic-minor .note:nth-child(12n + 3) {
-		background-color: var(--full-color);
-	}
-	.melodic-minor .note:nth-child(12n + 4) {
-		background-color: var(--full-color);
-	}
-	.melodic-minor .note:nth-child(12n + 5) {
-		background-color: var(--empty-color);
-	}
-	.melodic-minor .note:nth-child(12n + 6) {
-		background-color: var(--full-color);
-	}
-	.melodic-minor .note:nth-child(12n + 7) {
-		background-color: var(--empty-color);
-	}
-	.melodic-minor .note:nth-child(12n + 8) {
-		background-color: var(--full-color);
-	}
-	.melodic-minor .note:nth-child(12n + 9) {
-		background-color: var(--empty-color);
-	}
-	.melodic-minor .note:nth-child(12n + 10) {
-		background-color: var(--full-color);
-	}
-	.melodic-minor .note:nth-child(12n + 11) {
-		background-color: var(--empty-color);
-	}
-	.melodic-minor .note:nth-child(12n + 12) {
-		background-color: var(--full-color);
-	}
-
-	/* major pentatonic scale */
-	.pentatonic-major .note:nth-child(12n + 1) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 2) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 3) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 4) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 5) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 6) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 7) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 8) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 9) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 10) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 11) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-major .note:nth-child(12n + 12) {
-		background-color: var(--empty-color);
-	}
-
-	/* minor pentatonic scale */
-	.pentatonic-minor .note:nth-child(12n + 1) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 2) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 3) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 4) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 5) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 6) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 7) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 8) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 9) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 10) {
-		background-color: var(--empty-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 11) {
-		background-color: var(--full-color);
-	}
-	.pentatonic-minor .note:nth-child(12n + 12) {
+	.semitone.empty {
 		background-color: var(--empty-color);
 	}
 </style>

@@ -1,29 +1,16 @@
 <script lang="ts">
 	import Strings from '$lib/components/Strings.svelte';
-	import type { Instrument, Scale } from '$/lib/types';
+	import type { Instrument } from '$/lib/types';
 	import { notes } from '$lib/constants/notes';
 	import { intruments } from '$lib/constants/instruments';
 	import { shiftOrder, sortByFifths, sortByPitch } from '$lib/utils';
 	import type { InstrumentInfo, Note } from '$lib/types';
-
-	interface ScaleInfo {
-		name: string;
-		value: Scale;
-	}
+	import { SCALES } from '$lib/constants/scales';
 
 	interface SortInfo {
 		name: string;
 		apply: (notes: Note[]) => Note[];
 	}
-
-	const scales: ScaleInfo[] = [
-		{ name: 'Major', value: 'major' },
-		{ name: 'Natural Minor', value: 'natural-minor' },
-		{ name: 'Harmonic Minor', value: 'harmonic-minor' },
-		{ name: 'Melodic Minor', value: 'melodic-minor' },
-		{ name: 'Pentatonic Major', value: 'pentatonic-major' },
-		{ name: 'Pentatonic Minor', value: 'pentatonic-minor' }
-	];
 
 	const sortMethods: SortInfo[] = [
 		{ name: 'by pitch', apply: sortByPitch },
@@ -35,7 +22,7 @@
 	const getNoteIdxForPitch = (array: Note[], pitchOffset: number) =>
 		array.findIndex((n) => n.pitchOffset === pitchOffset);
 
-	let selectedScale: ScaleInfo = scales[0];
+	let selectedScale = SCALES[0];
 	let selectedInstru: InstrumentInfo = intruments[0];
 	let selectedSort: SortInfo = sortMethods[0];
 	let displayEnharmonic: boolean = false;
@@ -47,16 +34,16 @@
 	const findEnharmonic = (note: Note) =>
 		notes.find((n) => !!n.enharmonic && n.pitchOffset === note.pitchOffset);
 
-	const findRelative = (note: Note, scale: ScaleInfo) => {
-		if (scale.value === 'major') {
+	const findRelative = (note: Note, scale: typeof SCALES[0]) => {
+		if (scale.type === 'major') {
 			return {
 				note: notes.find((n) => !n.enharmonic && n.pitchOffset === (note.pitchOffset + 9) % 12),
-				scale: scales.find((s) => s.value === 'natural-minor')
+				scale: SCALES.find((s) => s.type === 'natural-minor')
 			};
-		} else if (scale.value === 'natural-minor') {
+		} else if (scale.type === 'natural-minor') {
 			return {
 				note: notes.find((n) => !n.enharmonic && n.pitchOffset === (note.pitchOffset + 3) % 12),
-				scale: scales.find((s) => s.value === 'major')
+				scale: SCALES.find((s) => s.type === 'major')
 			};
 		}
 
@@ -65,7 +52,7 @@
 
 	let selectedNote = getSortedNotes(selectedInstru, selectedSort)[0];
 	$: sortedNotes = getSortedNotes(selectedInstru, selectedSort);
-	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.value);
+	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.type);
 
 	function selectInstruCallback(value: Instrument) {
 		return () => {
@@ -73,7 +60,7 @@
 		};
 	}
 
-	function selectScaleCallback(value: ScaleInfo) {
+	function selectScaleCallback(value: typeof SCALES[0]) {
 		return () => {
 			selectedScale = value;
 		};
@@ -122,9 +109,9 @@
 
 <div>
 	Scale type:
-	{#each scales as scale}
+	{#each SCALES as scale}
 		<button on:click={selectScaleCallback(scale)} class:active={scale === selectedScale}
-			>{scale.name}</button
+			>{scale.label}</button
 		>
 	{/each}
 </div>
@@ -156,7 +143,7 @@
 			{/if}
 		{/if}
 	</span>
-	<span>{selectedScale.name}</span>
+	<span>{selectedScale.label}</span>
 
 	{#if displayRelativeScale}
 		{@const relative = findRelative(selectedNote, selectedScale)}
@@ -171,14 +158,14 @@
 						{/if}
 					{/if}
 				</span>
-				<span>{relative?.scale?.name}</span>
+				<span>{relative?.scale?.label}</span>
 			)
 		</span>
 	{/if}
 </h1>
 <div class="neck">
 	<Strings
-		scale={selectedScale.value}
+		scale={selectedScale.scale}
 		scaleOffset={12 - selectedNote.pitchOffset + selectedInstru.pitchStart}
 		instrument={selectedInstru.value}
 	/>
@@ -194,6 +181,10 @@
 	.neck {
 		margin: 0 1em;
 		font-size: 2vw;
+
+		--empty-color: none;
+		--full-color: blue;
+		--tonic-color: red;
 	}
 
 	button.active {
