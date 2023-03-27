@@ -1,16 +1,16 @@
 import type { Note } from "../types";
 
 export const notes: Note[] = [
-	{ label: 'C', offset: 0 },
-	{ label: 'C#', offset: 1 },
-	{ label: 'D', offset: 2 },
-	{ label: 'D#', offset: 3 },
-	{ label: 'E', offset: 4 },
-	{ label: 'F', offset: 5 },
-	{ label: 'F#', offset: 6 },
-	{ label: 'G', offset: 7 },
-	{ label: 'G#', offset: 8 },
-	{ label: 'A', offset: 9 },
-	{ label: 'A#', offset: 10 },
-	{ label: 'B', offset: 11 }
+	{ label: 'C', pitchOffset: 0 },
+	{ label: 'C#', pitchOffset: 1 },
+	{ label: 'D', pitchOffset: 2 },
+	{ label: 'D#', pitchOffset: 3 },
+	{ label: 'E', pitchOffset: 4 },
+	{ label: 'F', pitchOffset: 5 },
+	{ label: 'F#', pitchOffset: 6 },
+	{ label: 'G', pitchOffset: 7 },
+	{ label: 'G#', pitchOffset: 8 },
+	{ label: 'A', pitchOffset: 9 },
+	{ label: 'A#', pitchOffset: 10 },
+	{ label: 'B', pitchOffset: 11 }
 ];

@@ -12,7 +12,7 @@ export const sortByFifths = (notes: Note[]): Note[] => {
 	return notes
 		.map((n) => ({
 			...n,
-			order: (n.offset * FIFTH_PITCH_OFFSET) % 12
+			order: (n.pitchOffset * FIFTH_PITCH_OFFSET) % 12
 		}))
 		.sort((n1, n2) => n1.order - n2.order);
 };

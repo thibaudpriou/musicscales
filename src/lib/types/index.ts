@@ -8,4 +8,13 @@ export type Scale =
 
 export type Instrument = 'guitar' | 'bass';
 
-export type Note = { label: string; offset: number };
+export interface InstrumentInfo {
+	name: string;
+	value: Instrument;
+	pitchStart: number;
+}
+
+export type Note = {
+	label: string;
+	pitchOffset: number;
+};

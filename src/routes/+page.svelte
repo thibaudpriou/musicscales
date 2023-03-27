@@ -2,21 +2,19 @@
 	import Strings from '$lib/components/Strings.svelte';
 	import type { Instrument, Scale } from '$/lib/types';
 	import { notes } from '$lib/constants/notes';
+	import { intruments } from '$lib/constants/instruments';
+	import { shiftOrder, sortByFifths, sortByPitch } from '$lib/utils';
+	import type { InstrumentInfo, Note } from '$lib/types';
 
 	interface ScaleInfo {
 		name: string;
 		value: Scale;
 	}
 
-	interface InstrumentInfo {
+	interface SortInfo {
 		name: string;
-		value: Instrument;
+		apply: (notes: Note[]) => Note[];
 	}
-
-	const intruments: InstrumentInfo[] = [
-		{ name: 'Bass', value: 'bass' },
-		{ name: 'Guitar', value: 'guitar' }
-	];
 
 	const scales: ScaleInfo[] = [
 		{ name: 'Major', value: 'major' },
@@ -27,11 +25,23 @@
 		{ name: 'Pentatonic Minor', value: 'pentatonic-minor' }
 	];
 
+	const sortMethods: SortInfo[] = [
+		{ name: 'by pitch', apply: sortByPitch },
+		{ name: 'by fifths', apply: sortByFifths }
+	];
+
+	const getNoteIdxForPitch = (array: Note[], pitchOffset: number) =>
+		array.findIndex((n) => n.pitchOffset === pitchOffset);
+
 	let selectedScale: ScaleInfo = scales[0];
-	let selectedInstru: Instrument = intruments[0].value;
-	const GUITAR_OFFSET = 4;
-	let selectedNoteOffset = GUITAR_OFFSET;
-	$: selectedNote = notes.find((n) => n.offset === selectedNoteOffset) || notes[0];
+	let selectedInstru: InstrumentInfo = intruments[0];
+	let selectedSort: SortInfo = sortMethods[0];
+
+	const getSortedNotes = (instru: InstrumentInfo, sort: SortInfo) => shiftOrder(instru.pitchStart, sort.apply(notes));
+
+	let selectedNote = getSortedNotes(selectedInstru, selectedSort)[0];
+
+	$: sortedNotes = getSortedNotes(selectedInstru, selectedSort);
 
 	function selectInstruCallback(value: Instrument) {
 		return () => {
@@ -39,34 +49,42 @@
 		};
 	}
 
-	function selectedScaleCallback(value: ScaleInfo) {
+	function selectScaleCallback(value: ScaleInfo) {
 		return () => {
 			selectedScale = value;
 		};
 	}
 
+	function selectSortMethod(value: SortInfo) {
+		return () => {
+			selectedSort = value;
+		};
+	}
+
 	function upNote() {
-		if (selectedNoteOffset + 1 === 12) {
-			selectedNoteOffset = 0;
+		const selectedNoteIdx = getNoteIdxForPitch(sortedNotes, selectedNote.pitchOffset);
+		if (selectedNoteIdx + 1 === 12) {
+			selectedNote = sortedNotes[0];
 			return;
 		}
-		selectedNoteOffset = selectedNoteOffset + 1;
+		selectedNote = sortedNotes[selectedNoteIdx + 1];
 	}
 
 	function downNote() {
-		if (selectedNoteOffset - 1 === -1) {
-			selectedNoteOffset = 11;
+		const selectedNoteIdx = getNoteIdxForPitch(sortedNotes, selectedNote.pitchOffset);
+		if (selectedNoteIdx - 1 === -1) {
+			selectedNote = sortedNotes[11];
 			return;
 		}
-		selectedNoteOffset = selectedNoteOffset - 1;
+		selectedNote = sortedNotes[selectedNoteIdx - 1];
 	}
 </script>
 
 <div>
 	{#each intruments as instru}
 		<button
-			on:click={selectInstruCallback(instru.value)}
-			class:active={instru.value === selectedInstru}>{instru.name}</button
+			on:click={selectInstruCallback(instru)}
+			class:active={instru.value === selectedInstru.value}>{instru.name}</button
 		>
 	{/each}
 </div>
@@ -74,14 +92,19 @@
 <div>
 	Scale type:
 	{#each scales as scale}
-		<button on:click={selectedScaleCallback(scale)} class:active={scale === selectedScale}
+		<button on:click={selectScaleCallback(scale)} class:active={scale === selectedScale}
 			>{scale.name}</button
 		>
 	{/each}
 </div>
 
 <div>
-	Note:
+	Change note:
+	{#each sortMethods as sortMethod}
+		<button on:click={selectSortMethod(sortMethod)} class:active={sortMethod === selectedSort}
+			>{sortMethod.name}</button
+		>
+	{/each}
 	<button on:click={downNote}>-</button>
 	<button on:click={upNote}>+</button>
 </div>
@@ -93,8 +116,8 @@
 <div class="neck">
 	<Strings
 		scale={selectedScale.value}
-		scaleOffset={12 - selectedNoteOffset + GUITAR_OFFSET}
-		instrument={selectedInstru}
+		scaleOffset={12 - selectedNote.pitchOffset + selectedInstru.pitchStart}
+		instrument={selectedInstru.value}
 	/>
 </div>
 
