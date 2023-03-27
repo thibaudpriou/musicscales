@@ -39,6 +39,7 @@
 	let selectedInstru: InstrumentInfo = intruments[0];
 	let selectedSort: SortInfo = sortMethods[0];
 	let displayEnharmonic: boolean = false;
+	let displayRelativeScale: boolean = false;
 
 	const getSortedNotes = (instru: InstrumentInfo, sort: SortInfo) =>
 		shiftOrder(instru.pitchStart, sort.apply(harmonicNotes));
@@ -46,8 +47,25 @@
 	const findEnharmonic = (note: Note) =>
 		notes.find((n) => !!n.enharmonic && n.pitchOffset === note.pitchOffset);
 
+	const findRelative = (note: Note, scale: ScaleInfo) => {
+		if (scale.value === 'major') {
+			return {
+				note: notes.find((n) => !n.enharmonic && n.pitchOffset === (note.pitchOffset + 9) % 12),
+				scale: scales.find((s) => s.value === 'natural-minor')
+			};
+		} else if (scale.value === 'natural-minor') {
+			return {
+				note: notes.find((n) => !n.enharmonic && n.pitchOffset === (note.pitchOffset + 3) % 12),
+				scale: scales.find((s) => s.value === 'major')
+			};
+		}
+
+		return undefined;
+	};
+
 	let selectedNote = getSortedNotes(selectedInstru, selectedSort)[0];
 	$: sortedNotes = getSortedNotes(selectedInstru, selectedSort);
+	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.value);
 
 	function selectInstruCallback(value: Instrument) {
 		return () => {
@@ -69,6 +87,9 @@
 
 	function toggleEnharmonic() {
 		displayEnharmonic = !displayEnharmonic;
+	}
+	function toggleRelativeScale() {
+		displayRelativeScale = !displayRelativeScale;
 	}
 
 	function upNote() {
@@ -120,6 +141,10 @@
 </div>
 <div>
 	<button on:click={toggleEnharmonic} class:active={displayEnharmonic}>with enharmonics</button>
+	{#if scaleHasRelative}
+		<button on:click={toggleRelativeScale} class:active={displayRelativeScale}>with relative</button
+		>
+	{/if}
 </div>
 <h1>
 	<span>
@@ -132,6 +157,24 @@
 		{/if}
 	</span>
 	<span>{selectedScale.name}</span>
+
+	{#if displayRelativeScale}
+		{@const relative = findRelative(selectedNote, selectedScale)}
+		<span class="relative">
+			(
+				<span>
+					{relative?.note?.label}
+					{#if displayEnharmonic && relative?.note}
+						{@const relativeEnharmonic = findEnharmonic(relative.note)}
+						{#if relativeEnharmonic}
+							<span>/ {relativeEnharmonic?.label}</span>
+						{/if}
+					{/if}
+				</span>
+				<span>{relative?.scale?.name}</span>
+			)
+		</span>
+	{/if}
 </h1>
 <div class="neck">
 	<Strings
@@ -156,5 +199,9 @@
 	button.active {
 		background-color: lightgreen;
 		/* color: white; */
+	}
+
+	.relative {
+		font-size: 0.5em;
 	}
 </style>
