@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Strings from '$lib/Strings.svelte';
-	import type { Instrument, Scale } from '../types';
+	import type { Instrument, Note, Scale } from '../types';
 
 	interface ScaleInfo {
 		name: string;
@@ -25,11 +25,26 @@
 		{ name: 'Pentatonic Major', value: 'pentatonic-major' },
 		{ name: 'Pentatonic Minor', value: 'pentatonic-minor' }
 	];
-	const notes = ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'];
+	const notes: Note[] = [
+		{ label: 'C', offset: 0 },
+		{ label: 'C#', offset: 1 },
+		{ label: 'D', offset: 2 },
+		{ label: 'D#', offset: 3 },
+		{ label: 'E', offset: 4 },
+		{ label: 'F', offset: 5 },
+		{ label: 'F#', offset: 6 },
+		{ label: 'G', offset: 7 },
+		{ label: 'G#', offset: 8 },
+		{ label: 'A', offset: 9 },
+		{ label: 'A#', offset: 10 },
+		{ label: 'B', offset: 11 }
+	];
 
 	let selectedScale: ScaleInfo = scales[0];
 	let selectedInstru: Instrument = intruments[0].value;
-	let selectedNoteOffset = 0;
+	const GUITAR_OFFSET = 4;
+	let selectedNoteOffset = GUITAR_OFFSET;
+	$: selectedNote = notes.find((n) => n.offset === selectedNoteOffset) || notes[0];
 
 	function selectInstruCallback(value: Instrument) {
 		return () => {
@@ -85,11 +100,15 @@
 </div>
 
 <h1>
-	{notes[selectedNoteOffset]}
+	{selectedNote.label}
 	{selectedScale.name}
 </h1>
 <div class="neck">
-	<Strings scale={selectedScale.value} scaleOffset={12 - selectedNoteOffset} instrument={selectedInstru}/>
+	<Strings
+		scale={selectedScale.value}
+		scaleOffset={12 - selectedNoteOffset + GUITAR_OFFSET}
+		instrument={selectedInstru}
+	/>
 </div>
 
 <style>

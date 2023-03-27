@@ -7,3 +7,5 @@ export type Scale =
 	| 'pentatonic-minor';
 
 export type Instrument = 'guitar' | 'bass';
+
+export type Note = {label: string, offset: number}
