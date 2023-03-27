@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Strings from '$lib/Strings.svelte';
+	import Strings from '$lib/components/Strings.svelte';
 	import type { Instrument, Note, Scale } from '../types';
 
 	interface ScaleInfo {
