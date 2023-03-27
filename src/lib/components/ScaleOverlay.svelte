@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Scale } from '../../types';
+	import type { Scale } from '../types';
 
 	export let offset: number = 0; // relative to E
 	export let scale: Scale = 'major';

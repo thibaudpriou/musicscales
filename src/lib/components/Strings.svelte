@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ScaleOverlay from '$lib/components/ScaleOverlay.svelte';
-	import type { Instrument, Scale } from '../../types';
+	import type { Instrument, Scale } from '../types';
 
 	export let scaleOffset = 0; // relative to E
 	export let scale: Scale = 'major';

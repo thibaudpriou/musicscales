@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Strings from '$lib/components/Strings.svelte';
-	import type { Instrument, Note, Scale } from '../types';
+	import type { Instrument, Scale } from '$/lib/types';
+	import { notes } from '$lib/constants/notes';
 
 	interface ScaleInfo {
 		name: string;
@@ -24,20 +25,6 @@
 		{ name: 'Melodic Minor', value: 'melodic-minor' },
 		{ name: 'Pentatonic Major', value: 'pentatonic-major' },
 		{ name: 'Pentatonic Minor', value: 'pentatonic-minor' }
-	];
-	const notes: Note[] = [
-		{ label: 'C', offset: 0 },
-		{ label: 'C#', offset: 1 },
-		{ label: 'D', offset: 2 },
-		{ label: 'D#', offset: 3 },
-		{ label: 'E', offset: 4 },
-		{ label: 'F', offset: 5 },
-		{ label: 'F#', offset: 6 },
-		{ label: 'G', offset: 7 },
-		{ label: 'G#', offset: 8 },
-		{ label: 'A', offset: 9 },
-		{ label: 'A#', offset: 10 },
-		{ label: 'B', offset: 11 }
 	];
 
 	let selectedScale: ScaleInfo = scales[0];
