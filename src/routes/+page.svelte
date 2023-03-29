@@ -6,6 +6,7 @@
 	import { shiftOrder, sortByFifths, sortByPitch } from '$lib/utils';
 	import type { InstrumentInfo, Note } from '$lib/types';
 	import { SCALES } from '$lib/constants/scales';
+	import Title from '$lib/components/Title.svelte';
 
 	interface SortInfo {
 		name: string;
@@ -31,71 +32,44 @@
 	const getSortedNotes = (instru: InstrumentInfo, sort: SortInfo) =>
 		shiftOrder(instru.pitchStart, sort.apply(harmonicNotes));
 
-	const findEnharmonic = (note: Note) =>
-		notes.find((n) => !!n.enharmonic && n.pitchOffset === note.pitchOffset);
-
-	const findRelative = (note: Note, scale: typeof SCALES[0]) => {
-		if (scale.type === 'major') {
-			return {
-				note: notes.find((n) => !n.enharmonic && n.pitchOffset === (note.pitchOffset + 9) % 12),
-				scale: SCALES.find((s) => s.type === 'natural-minor')
-			};
-		} else if (scale.type === 'natural-minor') {
-			return {
-				note: notes.find((n) => !n.enharmonic && n.pitchOffset === (note.pitchOffset + 3) % 12),
-				scale: SCALES.find((s) => s.type === 'major')
-			};
-		}
-
-		return undefined;
-	};
-
 	let selectedNote = getSortedNotes(selectedInstru, selectedSort)[0];
 	$: sortedNotes = getSortedNotes(selectedInstru, selectedSort);
 	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.type);
 
-	function selectInstruCallback(value: Instrument) {
-		return () => {
-			selectedInstru = value;
-		};
-	}
+	const selectInstruCallback = (value: Instrument) => () => {
+		selectedInstru = value;
+	};
+	const selectScaleCallback = (value: (typeof SCALES)[0]) => () => {
+		selectedScale = value;
+	};
 
-	function selectScaleCallback(value: typeof SCALES[0]) {
-		return () => {
-			selectedScale = value;
-		};
-	}
-
-	function selectSortMethod(value: SortInfo) {
-		return () => {
-			selectedSort = value;
-		};
-	}
-
-	function toggleEnharmonic() {
+	const toggleEnharmonic = () => {
 		displayEnharmonic = !displayEnharmonic;
-	}
-	function toggleRelativeScale() {
+	};
+	const toggleRelativeScale = () => {
 		displayRelativeScale = !displayRelativeScale;
-	}
+	};
 
-	function upNote() {
+	// * key selection
+	const selectSortMethod = (value: SortInfo) => () => {
+		selectedSort = value;
+	};
+	const upNote = () => {
 		const selectedNoteIdx = getNoteIdxForPitch(sortedNotes, selectedNote.pitchOffset);
 		if (selectedNoteIdx + 1 === 12) {
 			selectedNote = sortedNotes[0];
 			return;
 		}
 		selectedNote = sortedNotes[selectedNoteIdx + 1];
-	}
-
-	function downNote() {
+	};
+	const downNote = () => {
 		const selectedNoteIdx = getNoteIdxForPitch(sortedNotes, selectedNote.pitchOffset);
 		if (selectedNoteIdx - 1 === -1) {
 			selectedNote = sortedNotes[11];
 			return;
 		}
 		selectedNote = sortedNotes[selectedNoteIdx - 1];
-	}
+	};
 </script>
 
 <div>
@@ -134,34 +108,14 @@
 	{/if}
 </div>
 <h1>
-	<span>
-		{selectedNote.label}
-		{#if displayEnharmonic}
-			{@const enharmonic = findEnharmonic(selectedNote)}
-			{#if enharmonic}
-				<span>/ {enharmonic?.label}</span>
-			{/if}
-		{/if}
-	</span>
-	<span>{selectedScale.label}</span>
-
-	{#if displayRelativeScale}
-		{@const relative = findRelative(selectedNote, selectedScale)}
-		<span class="relative">
-			(
-				<span>
-					{relative?.note?.label}
-					{#if displayEnharmonic && relative?.note}
-						{@const relativeEnharmonic = findEnharmonic(relative.note)}
-						{#if relativeEnharmonic}
-							<span>/ {relativeEnharmonic?.label}</span>
-						{/if}
-					{/if}
-				</span>
-				<span>{relative?.scale?.label}</span>
-			)
-		</span>
-	{/if}
+	<Title
+		{notes}
+		{selectedNote}
+		{selectedScale}
+		scales={SCALES}
+		{displayEnharmonic}
+		{displayRelativeScale}
+	/>
 </h1>
 <div class="neck">
 	<Strings
@@ -190,9 +144,5 @@
 	button.active {
 		background-color: lightgreen;
 		/* color: white; */
-	}
-
-	.relative {
-		font-size: 0.5em;
 	}
 </style>
