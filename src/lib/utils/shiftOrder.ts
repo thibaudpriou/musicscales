@@ -6,8 +6,9 @@
  * @returns
  */
 export const shiftOrder = <T>(start: number, notes: T[]): T[] => {
-	return [
-        ...notes.slice(start),
-        ...notes.slice(0, start - notes.length)
-    ]
+	if (start === notes.length) {
+		return notes;
+	}
+
+	return [...notes.slice(start), ...notes.slice(0, start - notes.length)];
 };

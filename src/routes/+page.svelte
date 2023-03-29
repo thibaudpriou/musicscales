@@ -7,6 +7,7 @@
 	import type { InstrumentInfo, Note } from '$lib/types';
 	import { SCALES } from '$lib/constants/scales';
 	import Title from '$lib/components/Title.svelte';
+	import Piano from '$lib/components/Piano.svelte';
 
 	interface SortInfo {
 		name: string;
@@ -117,12 +118,17 @@
 		{displayRelativeScale}
 	/>
 </h1>
-<div class="neck">
-	<Strings
-		scale={selectedScale.scale}
-		scaleOffset={12 - selectedNote.pitchOffset + selectedInstru.pitchStart}
-		instrument={selectedInstru.value}
-	/>
+<div class="instrument">
+	{#if selectedInstru.value === 'guitar' || selectedInstru.value === 'bass'}
+		<Strings
+			scale={selectedScale.scale}
+			scaleOffset={12 - selectedNote.pitchOffset + selectedInstru.pitchStart}
+			instrument={selectedInstru.value}
+		/>
+	{/if}
+	{#if selectedInstru.value === 'keyboard'}
+		<Piano scale={selectedScale.scale} offset={selectedNote.pitchOffset} />
+	{/if}
 </div>
 
 <style>
@@ -132,9 +138,11 @@
 		border-radius: 0.25em;
 	}
 
-	.neck {
+	.instrument {
 		margin: 0 1em;
 		font-size: 2vw;
+		display: inline-flex;
+		flex-direction: column;
 
 		--empty-color: none;
 		--full-color: blue;
