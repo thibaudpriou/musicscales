@@ -31,7 +31,7 @@
 					<span class="fret" />
 				{/each}
 				<span class="scale">
-					<ScaleOverlay {scale} offset={string.offset + scaleOffset} />
+					<ScaleOverlay {scale} scaleOffset={scaleOffset} stringOffset={string.offset} />
 				</span>
 				<span class="label">{string.name}</span>
 			</div>
