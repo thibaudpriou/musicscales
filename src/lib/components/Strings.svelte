@@ -1,10 +1,10 @@
 <script lang="ts">
 	import ScaleOverlay from '$lib/components/ScaleOverlay.svelte';
-	import type { Instrument, Scale } from '../types';
+	import type { InstrumentType, Scale } from '../types';
 
 	export let scaleOffset = 0; // relative to E
 	export let scale: Scale;
-	export let instrument: Instrument = 'bass';
+	export let instrument: InstrumentType = 'bass';
 
 	const bassStrings = [
 		{ name: 'G', offset: 15 },

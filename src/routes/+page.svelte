@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Strings from '$lib/components/Strings.svelte';
-	import type { Instrument } from '$/lib/types';
+	import type { InstrumentType } from '$/lib/types';
 	import { notes } from '$lib/constants/notes';
 	import { intruments } from '$lib/constants/instruments';
 	import type { InstrumentInfo, Note, ScaleInfo } from '$lib/types';
@@ -11,16 +11,16 @@
 	import NoteStepper from '$lib/components/forms/NoteStepper.svelte';
 
 	let selectedScale = SCALES[0];
-	let selectedInstru: InstrumentInfo = intruments[0];
+	let selectedInstru: InstrumentType = intruments[0];
 	let displayEnharmonic: boolean = false;
 	let displayRelativeScale: boolean = false;
 
 	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.type);
 
 	const enharmonicNotes = notes.filter((n) => !n.enharmonic);
-	let selectedNote = enharmonicNotes[0];
+	let selectedNote = enharmonicNotes.find(n => n.pitchOffset === selectedInstru.pitchStart);
 
-	const selectInstruCallback = (value: Instrument) => () => {
+	const selectInstruCallback = (value: InstrumentType) => () => {
 		selectedInstru = value;
 	};
 	const onSelectScale = (e: CustomEvent<ScaleInfo>) => {

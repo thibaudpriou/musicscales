@@ -17,11 +17,11 @@ export interface ScaleInfo {
 	scale: Scale;
 }
 
-export type Instrument = 'guitar' | 'bass' | 'keyboard';
+export type InstrumentType = 'guitar' | 'bass' | 'keyboard';
 
 export interface InstrumentInfo {
 	name: string;
-	value: Instrument;
+	value: InstrumentType;
 	pitchStart?: number;
 }
 
