@@ -4,10 +4,11 @@
 	import { notes } from '$lib/constants/notes';
 	import { intruments } from '$lib/constants/instruments';
 	import { shiftOrder, sortByFifths, sortByPitch } from '$lib/utils';
-	import type { InstrumentInfo, Note } from '$lib/types';
+	import type { InstrumentInfo, Note, ScaleInfo } from '$lib/types';
 	import { SCALES } from '$lib/constants/scales';
 	import Title from '$lib/components/Title.svelte';
 	import Piano from '$lib/components/Piano.svelte';
+	import ScaleRadio from '$lib/components/forms/ScaleRadio.svelte';
 
 	interface SortInfo {
 		name: string;
@@ -40,8 +41,8 @@
 	const selectInstruCallback = (value: Instrument) => () => {
 		selectedInstru = value;
 	};
-	const selectScaleCallback = (value: (typeof SCALES)[0]) => () => {
-		selectedScale = value;
+	const onSelectScale = (e: CustomEvent<ScaleInfo>) => {
+		selectedScale = e.detail;
 	};
 
 	const toggleEnharmonic = () => {
@@ -83,12 +84,7 @@
 </div>
 
 <div>
-	Scale type:
-	{#each SCALES as scale}
-		<button on:click={selectScaleCallback(scale)} class:active={scale === selectedScale}
-			>{scale.label}</button
-		>
-	{/each}
+	<ScaleRadio scales={SCALES} on:select={onSelectScale}/>
 </div>
 
 <div>
