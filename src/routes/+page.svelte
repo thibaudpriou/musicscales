@@ -3,40 +3,22 @@
 	import type { Instrument } from '$/lib/types';
 	import { notes } from '$lib/constants/notes';
 	import { intruments } from '$lib/constants/instruments';
-	import { shiftOrder, sortByFifths, sortByPitch } from '$lib/utils';
 	import type { InstrumentInfo, Note, ScaleInfo } from '$lib/types';
 	import { SCALES } from '$lib/constants/scales';
 	import Title from '$lib/components/Title.svelte';
 	import Piano from '$lib/components/Piano.svelte';
 	import ScaleRadio from '$lib/components/forms/ScaleRadio.svelte';
-
-	interface SortInfo {
-		name: string;
-		apply: (notes: Note[]) => Note[];
-	}
-
-	const sortMethods: SortInfo[] = [
-		{ name: 'by pitch', apply: sortByPitch },
-		{ name: 'by fifths', apply: sortByFifths }
-	];
-
-	const harmonicNotes = notes.filter((n) => !n.enharmonic);
-
-	const getNoteIdxForPitch = (array: Note[], pitchOffset: number) =>
-		array.findIndex((n) => n.pitchOffset === pitchOffset);
+	import NoteStepper from '$lib/components/forms/NoteStepper.svelte';
 
 	let selectedScale = SCALES[0];
 	let selectedInstru: InstrumentInfo = intruments[0];
-	let selectedSort: SortInfo = sortMethods[0];
 	let displayEnharmonic: boolean = false;
 	let displayRelativeScale: boolean = false;
 
-	const getSortedNotes = (instru: InstrumentInfo, sort: SortInfo) =>
-		shiftOrder(instru.pitchStart, sort.apply(harmonicNotes));
-
-	let selectedNote = getSortedNotes(selectedInstru, selectedSort)[0];
-	$: sortedNotes = getSortedNotes(selectedInstru, selectedSort);
 	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.type);
+
+	const enharmonicNotes = notes.filter((n) => !n.enharmonic);
+	let selectedNote = enharmonicNotes[0];
 
 	const selectInstruCallback = (value: Instrument) => () => {
 		selectedInstru = value;
@@ -45,32 +27,15 @@
 		selectedScale = e.detail;
 	};
 
+	const onChangeNote = (e: CustomEvent<Note>) => {
+		selectedNote = e.detail;
+	};
+
 	const toggleEnharmonic = () => {
 		displayEnharmonic = !displayEnharmonic;
 	};
 	const toggleRelativeScale = () => {
 		displayRelativeScale = !displayRelativeScale;
-	};
-
-	// * key selection
-	const selectSortMethod = (value: SortInfo) => () => {
-		selectedSort = value;
-	};
-	const upNote = () => {
-		const selectedNoteIdx = getNoteIdxForPitch(sortedNotes, selectedNote.pitchOffset);
-		if (selectedNoteIdx + 1 === 12) {
-			selectedNote = sortedNotes[0];
-			return;
-		}
-		selectedNote = sortedNotes[selectedNoteIdx + 1];
-	};
-	const downNote = () => {
-		const selectedNoteIdx = getNoteIdxForPitch(sortedNotes, selectedNote.pitchOffset);
-		if (selectedNoteIdx - 1 === -1) {
-			selectedNote = sortedNotes[11];
-			return;
-		}
-		selectedNote = sortedNotes[selectedNoteIdx - 1];
 	};
 </script>
 
@@ -84,18 +49,11 @@
 </div>
 
 <div>
-	<ScaleRadio scales={SCALES} on:select={onSelectScale}/>
+	<ScaleRadio scales={SCALES} on:select={onSelectScale} />
 </div>
 
 <div>
-	Change note:
-	{#each sortMethods as sortMethod}
-		<button on:click={selectSortMethod(sortMethod)} class:active={sortMethod === selectedSort}
-			>{sortMethod.name}</button
-		>
-	{/each}
-	<button on:click={downNote}>-</button>
-	<button on:click={upNote}>+</button>
+	<NoteStepper notes={enharmonicNotes} on:change={onChangeNote} />
 </div>
 <div>
 	<button on:click={toggleEnharmonic} class:active={displayEnharmonic}>with enharmonics</button>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ScaleInfo } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
+	import Fieldset from './commons/Fieldset.svelte';
 
 	export let scales: ScaleInfo[];
 
@@ -10,26 +11,19 @@
 
 	const selectScale = (scale: ScaleInfo) => {
 		selected = scale;
-		console.log(selected);
 		dispatch('select', scale);
 	};
 </script>
 
-<fieldset>
-	<legend>Scale type:</legend>
+<Fieldset legend="Scale type:">
 	{#each scales as scale}
 		<button on:click={() => selectScale(scale)} class="scale" class:active={scale === selected}>
 			{scale.label}
 		</button>
 	{/each}
-</fieldset>
+</Fieldset>
 
 <style>
-    fieldset {
-        display: flex;
-        flex-direction: row;
-        border: none
-    }
 
     .scale {
         margin: 0.5em;

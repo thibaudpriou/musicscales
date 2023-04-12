@@ -7,6 +7,6 @@ import type { Note } from '$lib/types';
  * @returns
  */
 export const sortByPitch = (notes: Note[]): Note[] => {
-	return notes
+	return [...notes]
 		.sort((n1, n2) => n1.pitchOffset - n2.pitchOffset);
 };
