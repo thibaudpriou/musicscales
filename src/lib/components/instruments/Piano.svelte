@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { shiftOrder } from '$lib/utils';
-	import { IN_SCALE, NOT_IN_SCALE, type Scale } from '../types';
+	import { transpose } from '$lib/utils';
+	import { IN_SCALE, NOT_IN_SCALE, type Scale } from '../../types';
 
-	export let offset: number = 0; // relative to C
+	export let offset: number = 0;
 	export let scale: Scale;
 
-	$: semitones = shiftOrder(12 - offset % 12, scale);
+	$: semitones = transpose(offset, scale);
 </script>
 
 <div class="container">

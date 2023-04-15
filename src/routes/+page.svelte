@@ -1,26 +1,26 @@
 <script lang="ts">
-	import Strings from '$lib/components/Strings.svelte';
-	import type { InstrumentType } from '$/lib/types';
 	import { notes } from '$lib/constants/notes';
 	import { intruments } from '$lib/constants/instruments';
 	import type { InstrumentInfo, Note, ScaleInfo } from '$lib/types';
 	import { SCALES } from '$lib/constants/scales';
 	import Title from '$lib/components/Title.svelte';
-	import Piano from '$lib/components/Piano.svelte';
+	import Piano from '$lib/components/instruments/Piano.svelte';
 	import ScaleRadio from '$lib/components/forms/ScaleRadio.svelte';
 	import NoteStepper from '$lib/components/forms/NoteStepper.svelte';
+	import AcousticGuitar from '$lib/components/instruments/AcousticGuitar.svelte';
+	import BassGuitar from '$lib/components/instruments/BassGuitar.svelte';
 
 	let selectedScale = SCALES[0];
-	let selectedInstru: InstrumentType = intruments[0];
+	let selectedInstru = intruments[0];
 	let displayEnharmonic: boolean = false;
 	let displayRelativeScale: boolean = false;
 
 	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.type);
 
 	const enharmonicNotes = notes.filter((n) => !n.enharmonic);
-	let selectedNote = enharmonicNotes.find(n => n.pitchOffset === selectedInstru.pitchStart);
+	let selectedNote = enharmonicNotes[0]; // E by default, because bass is default instru
 
-	const selectInstruCallback = (value: InstrumentType) => () => {
+	const selectInstruCallback = (value: InstrumentInfo) => () => {
 		selectedInstru = value;
 	};
 	const onSelectScale = (e: CustomEvent<ScaleInfo>) => {
@@ -43,7 +43,7 @@
 	{#each intruments as instru}
 		<button
 			on:click={selectInstruCallback(instru)}
-			class:active={instru.value === selectedInstru.value}>{instru.name}</button
+			class:active={instru.type === selectedInstru.type}>{instru.name}</button
 		>
 	{/each}
 </div>
@@ -72,15 +72,21 @@
 		{displayRelativeScale}
 	/>
 </h1>
+
 <div class="instrument">
-	{#if selectedInstru.value === 'guitar' || selectedInstru.value === 'bass'}
-		<Strings
-			scale={selectedScale.scale}
-			scaleOffset={12 - selectedNote.pitchOffset + selectedInstru.pitchStart}
-			instrument={selectedInstru.value}
+	{#if selectedInstru.type === 'guitar'}
+		<AcousticGuitar
+			scale={selectedScale}
+			scaleOffset={selectedNote.pitchOffset}
 		/>
 	{/if}
-	{#if selectedInstru.value === 'keyboard'}
+	{#if selectedInstru.type === 'bass'}
+		<BassGuitar
+			scale={selectedScale}
+			scaleOffset={selectedNote.pitchOffset}
+		/>
+	{/if}
+	{#if selectedInstru.type === 'keyboard'}
 		<Piano scale={selectedScale.scale} offset={selectedNote.pitchOffset} />
 	{/if}
 </div>
@@ -105,6 +111,5 @@
 
 	button.active {
 		background-color: lightgreen;
-		/* color: white; */
 	}
 </style>

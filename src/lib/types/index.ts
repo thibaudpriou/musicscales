@@ -14,15 +14,14 @@ export type ScaleType =
 export interface ScaleInfo {
 	label: string;
 	type: ScaleType;
-	scale: Scale;
+	scale: Scale; // TODO change ambiguous naming
 }
 
-export type InstrumentType = 'guitar' | 'bass' | 'keyboard';
+export type InstrumentType = 'bass' | 'guitar' | 'keyboard';
 
 export interface InstrumentInfo {
 	name: string;
-	value: InstrumentType;
-	pitchStart?: number;
+	type: InstrumentType;
 }
 
 export type Note = {

@@ -29,24 +29,27 @@
 		selectedSort = value;
 	};
 
+	const selectNote = (idx: number) => {
+		selectedNote = sortedNotes[idx];
+		dispatchChange(selectedNote);
+	};
+
 	const upNote = () => {
 		const selectedNoteIdx = getNoteIdxForPitch(sortedNotes, selectedNote.pitchOffset);
-		if (selectedNoteIdx + 1 === 12) {
-			selectedNote = sortedNotes[0];
+		if (selectedNoteIdx >= sortedNotes.length - 1) {
+			selectNote(0);
 			return;
 		}
-		selectedNote = sortedNotes[selectedNoteIdx + 1];
-		dispatchChange(selectedNote);
+		selectNote(selectedNoteIdx + 1);
 	};
 
 	const downNote = () => {
 		const selectedNoteIdx = getNoteIdxForPitch(sortedNotes, selectedNote.pitchOffset);
-		if (selectedNoteIdx - 1 === -1) {
-			selectedNote = sortedNotes[11];
+		if (selectedNoteIdx - 1 < 0) {
+			selectNote(sortedNotes.length - 1);
 			return;
 		}
-		selectedNote = sortedNotes[selectedNoteIdx - 1];
-		dispatchChange(selectedNote);
+		selectNote(selectedNoteIdx - 1);
 	};
 </script>
 

@@ -1,35 +1,43 @@
 <script lang="ts">
-	import { shiftOrder } from '$lib/utils';
-	import { IN_SCALE, NOT_IN_SCALE, type Scale } from '../types';
+	import { IN_SCALE, NOT_IN_SCALE, type Scale } from '$lib/types';
+	import { transpose } from '$lib/utils';
 
 	export let scaleOffset: number = 0;
 	export let stringOffset: number = 4;
 	export let scale: Scale;
 
-	$: offset = scaleOffset % 12 - stringOffset % 12
-	$: semitones = shiftOrder(offset % 12, scale);
+	$: offset = scaleOffset - stringOffset;
+	$: isTonic = (idx: number) => {
+		const shiftOrder = Math.abs(offset) % scale.length
+		const order = idx % scale.length
+		if (offset >= 0 || shiftOrder === 0) {
+			return order === shiftOrder
+		}
+		return order === scale.length - shiftOrder;
+	};
+	$: semitones = transpose(offset, scale);
 	$: firstSemitone = semitones[0];
 </script>
 
-<div class="scale-overlay">
+<div class="string-scale">
 	{#each semitones as semitone, idx}
 		<span
 			class="semitone"
 			class:full={semitone === IN_SCALE}
 			class:empty={semitone === NOT_IN_SCALE}
-			class:tonic={idx === offset % 12}
+			class:tonic={isTonic(idx)}
 		/>
 	{/each}
 	<span
 		class="semitone"
 		class:full={firstSemitone === IN_SCALE}
 		class:empty={firstSemitone === NOT_IN_SCALE}
-		class:tonic={offset % 12 === 0}
+		class:tonic={isTonic(0)}
 	/>
 </div>
 
 <style>
-	.scale-overlay {
+	.string-scale {
 		display: flex;
 	}
 
