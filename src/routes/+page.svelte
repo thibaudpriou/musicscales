@@ -39,14 +39,18 @@
 	};
 </script>
 
-<div>
-	{#each intruments as instru}
-		<button
-			on:click={selectInstruCallback(instru)}
-			class:active={instru.type === selectedInstru.type}>{instru.name}</button
-		>
-	{/each}
-</div>
+<h1>
+	<Title
+		{notes}
+		{selectedNote}
+		{selectedScale}
+		scales={SCALES}
+		{displayEnharmonic}
+		{displayRelativeScale}
+	/>
+</h1>
+
+<hr />
 
 <div>
 	<ScaleRadio scales={SCALES} on:select={onSelectScale} />
@@ -62,16 +66,16 @@
 		>
 	{/if}
 </div>
-<h1>
-	<Title
-		{notes}
-		{selectedNote}
-		{selectedScale}
-		scales={SCALES}
-		{displayEnharmonic}
-		{displayRelativeScale}
-	/>
-</h1>
+
+<hr />
+<div>
+	{#each intruments as instru}
+		<button
+			on:click={selectInstruCallback(instru)}
+			class:active={instru.type === selectedInstru.type}>{instru.name}</button
+		>
+	{/each}
+</div>
 
 <div class="instrument">
 	{#if selectedInstru.type === 'guitar'}
@@ -93,7 +97,7 @@
 	}
 
 	.instrument {
-		margin: 0 1em;
+		margin: 1em 1em 0 1em;
 		font-size: 2vw;
 		display: inline-flex;
 		flex-direction: column;

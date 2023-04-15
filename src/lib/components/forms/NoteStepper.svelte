@@ -7,26 +7,17 @@
 	export let notes: Note[];
 	const dispatchChange = createEventDispatcher().bind(null, 'change');
 
-	interface SortInfo {
-		label: string;
-		apply: (notes: Note[]) => Note[];
-	}
-
-	const sortMethods: SortInfo[] = [
-		{ label: 'by pitch', apply: sortByPitch },
-		{ label: 'by fifths', apply: sortByFifths }
-	];
-
-	let selectedSort: SortInfo = sortMethods[0];
-	$: sortedNotes = selectedSort.apply(notes);
+	let byFifths = false;
+	$: sort = byFifths ? sortByFifths : sortByPitch;
+	$: sortedNotes = sort(notes);
 
 	let selectedNote = notes[0];
 
 	const getNoteIdxForPitch = (array: Note[], pitchOffset: number) =>
 		array.findIndex((n) => n.pitchOffset === pitchOffset);
 
-	const selectSortMethod = (value: SortInfo) => {
-		selectedSort = value;
+	const toggleByFifths = () => {
+		byFifths = !byFifths;
 	};
 
 	const selectNote = (idx: number) => {
@@ -54,18 +45,17 @@
 </script>
 
 <Fieldset legend="Change note:">
-	{#each sortMethods as sortMethod}
-		<button
-			on:click={() => selectSortMethod(sortMethod)}
-			class="sort"
-			class:active={sortMethod === selectedSort}>{sortMethod.label}</button
-		>
-	{/each}
-	<button on:click={downNote}>-</button>
-	<button on:click={upNote}>+</button>
+	<button on:click={toggleByFifths} class="sort" class:active={byFifths}>5ths</button>
+	<button on:click={downNote} class="step">-</button>
+	<button on:click={upNote} class="step">+</button>
 </Fieldset>
 
 <style>
+	.step {
+		margin: 0.5em;
+		padding: 0.2em 0.5em;
+	}
+
 	.sort {
 		margin: 0.5em;
 		padding: 0.2em 0.5em;
