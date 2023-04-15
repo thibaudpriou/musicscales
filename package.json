@@ -1,7 +1,7 @@
 {
 	"name": "musicscales",
 	"version": "1.0.0",
-	"description": "simple website to display music scales on bass guitar",
+	"description": "simple website to display music scales",
 	"homepage": "http://musicscales.priou.me",
 	"author": {
 		"name": "Thibaud Priou",
