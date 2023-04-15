@@ -18,7 +18,7 @@
 	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.type);
 
 	const enharmonicNotes = notes.filter((n) => !n.enharmonic);
-	let selectedNote = enharmonicNotes[0]; // E by default, because bass is default instru
+	let selectedNote = enharmonicNotes.find((n) => n.pitchOffset === 4); // E by default, because bass is default instru
 
 	const selectInstruCallback = (value: InstrumentInfo) => () => {
 		selectedInstru = value;
