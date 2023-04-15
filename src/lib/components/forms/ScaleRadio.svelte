@@ -24,12 +24,11 @@
 </Fieldset>
 
 <style>
-
-    .scale {
-        margin: 0.5em;
+	.scale {
+		margin: 0.5em;
 		padding: 0.2em 0.5em;
 		border-radius: 0.25em;
-    }
+	}
 
 	.scale.active {
 		background-color: lightgreen;

@@ -1,4 +1,4 @@
-import type { Note } from "../types";
+import type { Note } from '../types';
 
 export const notes: Note[] = [
 	{ label: 'B#', pitchOffset: 0, enharmonic: true },

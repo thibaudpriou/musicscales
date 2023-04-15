@@ -1,34 +1,33 @@
 <script lang="ts">
-	import NeckIndicators from "./NeckIndicators.svelte";
+	import NeckIndicators from './NeckIndicators.svelte';
 
-	export let nbStrings: number = 4;
+	export let nbStrings = 4;
 </script>
 
 <div>
-    {#each Array(nbStrings - 1) as rows}
-        <span class="row">
-            {#each Array(13) as _i}
-                <span class="fret" />
-            {/each}
-        </span>
-    {/each}
+	{#each Array(nbStrings - 1) as rows}
+		<span class="row">
+			{#each Array(13) as _i}
+				<span class="fret" />
+			{/each}
+		</span>
+	{/each}
 </div>
 <NeckIndicators />
 
 <style>
-
-    .row {
+	.row {
 		position: relative;
 		display: flex;
 		border-top: solid 1px black;
-        height: 2em;
+		height: 2em;
 	}
 
-    .row:last-child {
-        border-bottom: solid 1px black;
-    }
+	.row:last-child {
+		border-bottom: solid 1px black;
+	}
 
-    .row::before {
+	.row::before {
 		display: block;
 		content: '';
 		width: 4px;
@@ -38,7 +37,7 @@
 		margin-top: -1px; /* for borders */
 	}
 
-    .fret {
+	.fret {
 		width: var(--fret-size);
 		height: 2em;
 		display: inline-block;
@@ -47,4 +46,3 @@
 		box-sizing: border-box;
 	}
 </style>
-

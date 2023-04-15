@@ -6,8 +6,8 @@
 	export let scales: ScaleInfo[];
 	export let selectedScale: ScaleInfo;
 
-	export let displayEnharmonic: boolean = false;
-	export let displayRelativeScale: boolean = false;
+	export let displayEnharmonic = false;
+	export let displayRelativeScale = false;
 
 	const findEnharmonic = (note: Note) =>
 		notes.find((n) => !!n.enharmonic && n.pitchOffset === note.pitchOffset);

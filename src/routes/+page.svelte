@@ -12,8 +12,8 @@
 
 	let selectedScale = SCALES[0];
 	let selectedInstru = intruments[0];
-	let displayEnharmonic: boolean = false;
-	let displayRelativeScale: boolean = false;
+	let displayEnharmonic = false;
+	let displayRelativeScale = false;
 
 	$: scaleHasRelative = ['major', 'natural-minor'].includes(selectedScale.type);
 
@@ -75,16 +75,10 @@
 
 <div class="instrument">
 	{#if selectedInstru.type === 'guitar'}
-		<AcousticGuitar
-			scale={selectedScale}
-			scaleOffset={selectedNote.pitchOffset}
-		/>
+		<AcousticGuitar scale={selectedScale} scaleOffset={selectedNote.pitchOffset} />
 	{/if}
 	{#if selectedInstru.type === 'bass'}
-		<BassGuitar
-			scale={selectedScale}
-			scaleOffset={selectedNote.pitchOffset}
-		/>
+		<BassGuitar scale={selectedScale} scaleOffset={selectedNote.pitchOffset} />
 	{/if}
 	{#if selectedInstru.type === 'keyboard'}
 		<Piano scale={selectedScale.scale} offset={selectedNote.pitchOffset} />

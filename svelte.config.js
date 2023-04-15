@@ -1,4 +1,4 @@
-import adaptaterStatic from "@sveltejs/adapter-static";
+import adaptaterStatic from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -9,14 +9,14 @@ const config = {
 
 	kit: {
 		adapter: adaptaterStatic({
-            pages: "build",
-            assets: "build",
-            precompress: false,
-            strict: true,
-        }),
-        files: {
-            assets: "static",
-        },
+			pages: 'build',
+			assets: 'build',
+			precompress: false,
+			strict: true
+		}),
+		files: {
+			assets: 'static'
+		}
 	}
 };
 

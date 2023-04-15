@@ -32,8 +32,6 @@ Transpose('transpose when start < 0', () => {
 	assert.equal(result, ['C', 'D', 'E', 'A', 'B']);
 });
 
-
-
 Transpose('transpose to same when start is array.length', () => {
 	const notes = ['A', 'B', 'C', 'D', 'E'];
 	const start = 5;
@@ -51,7 +49,6 @@ Transpose('transpose correctly when start gt array.length', () => {
 
 	assert.equal(result, ['D', 'E', 'A', 'B', 'C']);
 });
-
 
 Transpose('transpose to same when start is - array.length (<0)', () => {
 	const notes = ['A', 'B', 'C', 'D', 'E'];

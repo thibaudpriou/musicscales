@@ -5,7 +5,7 @@ const FIFTH_PITCH_OFFSET = 7; // the dominant offset is 7 semitones relative to 
 /**
  * Sorts an array of notes by fifths
  *
- * @param notes 
+ * @param notes
  * @returns
  */
 export const sortByFifths = (notes: Note[]): Note[] => {

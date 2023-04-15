@@ -2,7 +2,7 @@
 	import { transpose } from '$lib/utils';
 	import { IN_SCALE, NOT_IN_SCALE, type Scale } from '../../types';
 
-	export let offset: number = 0;
+	export let offset = 0;
 	export let scale: Scale;
 
 	$: semitones = transpose(offset, scale);
@@ -28,21 +28,22 @@
 </div>
 
 <style>
-    .container {
-        --width: 3em;
-        --height: 6em;
-        position: relative;
-    }
+	.container {
+		--width: 3em;
+		--height: 6em;
+		position: relative;
+	}
 
-	.keys, .scale-overlay {
+	.keys,
+	.scale-overlay {
 		display: flex;
 	}
 
-    .scale-overlay {
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
+	.scale-overlay {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
 
 	/* keys */
 	.key {
@@ -71,7 +72,7 @@
 	.key:nth-child(12n + 9)::before,
 	.key:nth-child(12n + 11)::before {
 		background-color: black;
-		height: calc(var(--height) * 3 / 4 );
+		height: calc(var(--height) * 3 / 4);
 		content: '';
 		position: absolute;
 		top: 0;
@@ -83,7 +84,7 @@
 
 	/* semitones */
 	.semitone {
-		position: relative;		
+		position: relative;
 		height: var(--height);
 		width: var(--width);
 	}
@@ -94,7 +95,7 @@
 		width: 1em;
 		height: 1em;
 		border-radius: 50%;
-        clip-path: circle(1em);
+		clip-path: circle(1em);
 		bottom: 0.5em;
 		left: calc(50% - 0.5em);
 	}
@@ -109,22 +110,22 @@
 		background-color: var(--tonic-color);
 	}
 
-    .semitone:nth-child(12n + 2),
+	.semitone:nth-child(12n + 2),
 	.semitone:nth-child(12n + 4),
 	.semitone:nth-child(12n + 7),
 	.semitone:nth-child(12n + 9),
 	.semitone:nth-child(12n + 11) {
 		width: 0;
 		border: none;
-        background: none;
-		height: calc(var(--height) * 3 / 4 );
+		background: none;
+		height: calc(var(--height) * 3 / 4);
 	}
 
-    .semitone:nth-child(12n + 2)::before,
+	.semitone:nth-child(12n + 2)::before,
 	.semitone:nth-child(12n + 4)::before,
 	.semitone:nth-child(12n + 7)::before,
 	.semitone:nth-child(12n + 9)::before,
 	.semitone:nth-child(12n + 11)::before {
 		height: 1em; /* DEL */
-    }
+	}
 </style>

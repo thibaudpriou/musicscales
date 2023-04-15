@@ -8,9 +8,9 @@
 </fieldset>
 
 <style>
-    fieldset {
-        display: flex;
-        flex-direction: row;
-        border: none
-    }
+	fieldset {
+		display: flex;
+		flex-direction: row;
+		border: none;
+	}
 </style>

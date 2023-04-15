@@ -2,16 +2,16 @@
 	import { IN_SCALE, NOT_IN_SCALE, type Scale } from '$lib/types';
 	import { transpose } from '$lib/utils';
 
-	export let scaleOffset: number = 0;
-	export let stringOffset: number = 4;
+	export let scaleOffset = 0;
+	export let stringOffset = 4;
 	export let scale: Scale;
 
 	$: offset = scaleOffset - stringOffset;
 	$: isTonic = (idx: number) => {
-		const shiftOrder = Math.abs(offset) % scale.length
-		const order = idx % scale.length
+		const shiftOrder = Math.abs(offset) % scale.length;
+		const order = idx % scale.length;
 		if (offset >= 0 || shiftOrder === 0) {
-			return order === shiftOrder
+			return order === shiftOrder;
 		}
 		return order === scale.length - shiftOrder;
 	};

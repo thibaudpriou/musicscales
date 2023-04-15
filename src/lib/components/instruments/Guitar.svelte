@@ -3,12 +3,12 @@
 	import Neck from './commons/Neck.svelte';
 	import StringScale from './commons/StringScale.svelte';
 
-	interface String {
+	interface StringInfo {
 		name: string;
 		offset: number;
 	}
 
-	export let strings: String[];
+	export let strings: StringInfo[];
 	export let scale: ScaleInfo;
 	export let scaleOffset = 0;
 </script>
@@ -45,7 +45,7 @@
 		margin-top: 1em;
 	}
 
-    .string-scale:first-child {
+	.string-scale:first-child {
 		margin-top: -0.5em;
 	}
 </style>
