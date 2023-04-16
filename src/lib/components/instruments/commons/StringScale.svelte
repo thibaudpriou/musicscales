@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { IN_SCALE, NOT_IN_SCALE, type Scale } from '$lib/types';
-	import { transpose } from '$lib/utils';
+	import { computeFretRatio, transpose } from '$lib/utils';
 
 	export let scaleOffset = 0;
 	export let stringOffset = 4;
@@ -26,6 +26,7 @@
 			class:full={semitone === IN_SCALE}
 			class:empty={semitone === NOT_IN_SCALE}
 			class:tonic={isTonic(idx)}
+			style:--distance-ratio={computeFretRatio(idx - 1)}
 		/>
 	{/each}
 	<span
@@ -33,6 +34,7 @@
 		class:full={firstSemitone === IN_SCALE}
 		class:empty={firstSemitone === NOT_IN_SCALE}
 		class:tonic={isTonic(0)}
+		style:--distance-ratio={computeFretRatio(semitones.length - 1)}
 	/>
 </div>
 
@@ -42,12 +44,14 @@
 	}
 
 	.semitone {
-		margin-left: 1em;
-		width: 1em;
-		height: 1em;
+		--size: 1em;
+		/* won't be perfectly aligned (CSS...) but whatever */
+		margin-left: calc(var(--fret-size) * var(--distance-ratio) - var(--size));
+		width: var(--size);
+		height: var(--size);
 		display: inline-block;
 		border-radius: 50%;
-		clip-path: circle(1em);
+		clip-path: circle(var(--size));
 		background-color: white;
 	}
 

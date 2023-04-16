@@ -31,7 +31,7 @@
 		position: relative;
 
 		--neck-indicators-size: 0.25em;
-		--fret-size: 2em;
+		--fret-size: 3em;
 
 		margin-top: 0.5em;
 	}

@@ -1,14 +1,15 @@
 <script lang="ts">
+	import { computeFretRatio } from '$lib/utils';
 	import NeckIndicators from './NeckIndicators.svelte';
 
 	export let nbStrings = 4;
 </script>
 
 <div>
-	{#each Array(nbStrings - 1) as rows}
+	{#each Array(nbStrings - 1) as _rows}
 		<span class="row">
-			{#each Array(13) as _i}
-				<span class="fret" />
+			{#each Array(13) as _i, idx}
+				<span class="fret" style:--distance-ratio={computeFretRatio(idx)} />
 			{/each}
 		</span>
 	{/each}
@@ -38,7 +39,7 @@
 	}
 
 	.fret {
-		width: var(--fret-size);
+		width: calc(var(--fret-size) * var(--distance-ratio));
 		height: 2em;
 		display: inline-block;
 		border-left: 1px solid black;
