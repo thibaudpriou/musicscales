@@ -20,5 +20,14 @@ export const notes: Note[] = [
 	{ label: 'A', pitchOffset: 9 },
 	{ label: 'A#', pitchOffset: 10 },
 	{ label: 'Bb', pitchOffset: 10, enharmonic: true },
-	{ label: 'B', pitchOffset: 11 }
+	{ label: 'B', pitchOffset: 11 },
+	{ label: 'Cb', pitchOffset: 11, enharmonic: true }
 ];
+
+const naturals = notes.filter((n) => n.label.indexOf('#') === -1 && n.label.indexOf('b') === -1);
+
+export const NB_NATURALS = naturals.length; // 7
+
+// * accidentals
+export const NB_FLATS = NB_NATURALS; // 7
+export const NB_SHARPS = NB_NATURALS; // 7

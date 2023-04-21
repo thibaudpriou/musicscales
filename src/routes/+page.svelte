@@ -9,6 +9,7 @@
 	import NoteStepper from '$lib/components/forms/NoteStepper.svelte';
 	import AcousticGuitar from '$lib/components/instruments/AcousticGuitar.svelte';
 	import BassGuitar from '$lib/components/instruments/BassGuitar.svelte';
+	import { everyFifths } from '$lib/utils';
 
 	let selectedScale = SCALES[0];
 	let selectedInstru = intruments[0];
@@ -37,6 +38,9 @@
 	const toggleRelativeScale = () => {
 		displayRelativeScale = !displayRelativeScale;
 	};
+
+	// TODO display circle of fifths & keys
+	console.log(everyFifths(notes));
 </script>
 
 <h1>

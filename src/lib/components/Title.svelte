@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Note, ScaleInfo } from '$lib/types';
+	import { getRelativeMajorScales, getRelativeMinorScales } from '$lib/utils';
 
 	export let notes: Note[];
 	export let selectedNote: Note;
@@ -15,12 +16,12 @@
 	const findRelative = (note: Note, scale: (typeof scales)[0]) => {
 		if (scale.type === 'major') {
 			return {
-				note: notes.find((n) => !n.enharmonic && n.pitchOffset === (note.pitchOffset + 9) % 12),
+				note: getRelativeMinorScales(notes, note.pitchOffset).find((n) => !n.enharmonic),
 				scale: scales.find((s) => s.type === 'natural-minor')
 			};
 		} else if (scale.type === 'natural-minor') {
 			return {
-				note: notes.find((n) => !n.enharmonic && n.pitchOffset === (note.pitchOffset + 3) % 12),
+				note: getRelativeMajorScales(notes, note.pitchOffset).find((n) => !n.enharmonic),
 				scale: scales.find((s) => s.type === 'major')
 			};
 		}
