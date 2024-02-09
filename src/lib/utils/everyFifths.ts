@@ -3,7 +3,7 @@ import { NB_FLATS, NB_SHARPS } from '$lib/constants/notes';
 import type { Note } from '$lib/types';
 import { getRelativeMinorScales } from '$lib/utils/getRelativeScale';
 import { sortByFifths } from '$lib/utils/sortByFifths';
-import { transpose } from '$lib/utils/transpose';
+import { transpose } from '$lib/musicscalesjs/utils/transpose';
 
 /**
  * Return the nb first accidentals.

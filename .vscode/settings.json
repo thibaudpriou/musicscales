@@ -1,6 +1,6 @@
 {
 	"editor.formatOnSave": true,
-	"workbench.editor.showTabs": true,
+	"workbench.editor.showTabs": "multiple",
 	"workbench.editor.enablePreview": true,
 	"javascript.validate.enable": false,
 	"eslint.validate": ["javascript"],
@@ -26,7 +26,7 @@
 	"editor.minimap.maxColumn": 15,
 	"html.format.wrapLineLength": 80,
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true
+		"source.fixAll.eslint": "explicit"
 	},
 	"[html]": {
 		"editor.defaultFormatter": "vscode.html-language-features"

@@ -3,4 +3,4 @@ export * from './everyFifths';
 export * from './getRelativeScale';
 export * from './sortByFifths';
 export * from './sortByPitch';
-export * from './transpose';
+export * from '../musicscalesjs/utils/transpose';
